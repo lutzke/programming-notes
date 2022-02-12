@@ -666,12 +666,16 @@ const lessThanTen = jumbledNums.findIndex(num => num < 10);
 #### `.every()`
 
 * returns `true` if every value in the array causes the callback function to return `true`. returns `false` otherwise
+  * kind of like AND `&&`
+
 
 
 
 #### `.some()`
 
 * returns `true` if at least one value in the array causes the callback function to return `true`. returns `false` otherwise
+  * kind of like OR `||`
+
 
 
 
@@ -679,18 +683,35 @@ const lessThanTen = jumbledNums.findIndex(num => num < 10);
 
 * objects may be assigned to variables using `{}` curly braces
 
+* objects have **properties**, which consist of a key and a value
+
+* keys and values are separated by **colons**
+
+* keys are strings, but only need quotes around them if they contain spaces or special characters
+
+* key-value pairs are separated by **commas**
+
   ```javascript
-  let spaceship = {
-    'fuel type': 'hydrogen',
-    color: 'silver'
+  let object = {
+    key: value,
+    'key two': 42
+  };
+  ```
+
+* e.g.
+
+  ```javascript
+  let cube = {
+    faces: 6,
+    type: 'regular polyhedron'
   };
   ```
 
 * data in objects is unordered
+
+  * it **can't** be indexed into like `object[0]`
+
 * this unordered data is organized into key-value pairs
-* keys and values are separated by colons
-* keys are strings, but only need quotes around them if they contain spaces or special characters
-* key-value pairs are separated by commas
 
 
 
@@ -722,23 +743,6 @@ const lessThanTen = jumbledNums.findIndex(num => num < 10);
   ```javascript
   let returnProperty = (objectName, propertyName) => objectName[propetyName];
   returnProperty(spaceship, 'homePlanet'); // returns 'Earth'
-
-##### nested objects
-
-* nested objects may be accessed like so:
-
-  ```javascript
-  const apple = { 
-    color: 'Green',
-    price: {
-      bulk: '$3/kg',
-      smallQty: '$4/kg'
-    }
-  };
-  console.log(apple.price.bulk); // '$3/kg'
-  ```
-
-  
 
 
 
@@ -802,3 +806,274 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 
 
 
+#### nested objects
+
+* nested objects may be accessed like so:
+
+  ```javascript
+  const apple = { 
+    color: 'Green',
+    price: {
+      bulk: '$3/kg',
+      smallQty: '$4/kg'
+    }
+  };
+  console.log(apple.price.bulk); // '$3/kg'
+  console.log(apple['price'].smallQty); // '$4/kg'
+  ```
+
+  * nested objects are accessed from outside to inside, left to right
+
+* arrays of objects are possible; see `passengers` below:
+
+  ```javascript
+  const spaceship = {
+    passengers: [{
+      name: 'Benjamin',
+      degree: 'Microbiology',
+      seat: '12B',
+    }, {
+      name: 'Jane',
+      degree: 'Organic Chemistry',
+      seat: '13B',
+    }],
+    crew: {
+      captain: {
+        name: 'Sarah',
+        degree: 'Computer Engineering',
+      },
+      telescope: {
+        yearBuilt: 2018,
+        model: '91031-XLT',
+        focalLength: 2032,
+      },
+    },
+  };
+  
+  console.log(`Captain ${spaceship.crew.captain.name} reporting for duty!`);
+  // Output: Captain Sarah reporting for duty!
+  ```
+
+
+
+#### pass by reference
+
+* objects are passed by reference in JavaScript
+  * meaning, when an object (even one declared using `const`) is passed into a function as an argument, a pointer is given to the object's location in memory
+  * any changes to the object will be made to this location in memory, i.e. to the original object
+
+
+#### looping through objects
+
+* example:
+
+  ```javascript
+  for (const passenger in spaceship.passengers) {
+    console.log(`${passenger}: ${spaceship.passengers[passenger].name}`);
+  };
+  ```
+
+
+
+
+### `this`
+
+* the `this` keyword references the calling object, and allows us to access its properties
+
+* when is it useful? **line 7** in the following example
+
+  * e.g. without `this`:
+
+    > ` "ReferenceError: dietType is not defined" `
+
+    ```javascript
+    const goat = {
+      dietType: 'herbivore',
+      makeSound() {
+        console.log('baaa');
+      },
+      diet() {
+        console.log(dietType); // <-----
+      }
+    };
+    goat.diet(); 
+    ```
+
+    with `this`:
+
+    > `herbivore`
+
+    ```javascript
+    const goat = {
+      dietType: 'herbivore',
+      makeSound() {
+        console.log('baaa');
+      },
+      diet() {
+        console.log(this.dietType); // <-----
+      }
+    };
+     
+    goat.diet(); 
+    ```
+
+* why is `this` necessary in the above example?
+
+  * inside the **scope** of the `diet()` method, other properties of the `goat` object aren't accessible
+
+* arrow functions, objects and `this`
+  * arrow functions should ***not*** be used as methods, because they lack a binding for `this`
+    * don't use arrow functions inside objects!
+
+
+
+### objects, continued
+
+#### privacy
+
+* some properties should not be able to be accessed and updated
+
+  * we may only certain properties to be mutable
+  * this is called privacy, which is a feature many languages have built-in with objects
+    * JavaScript does not
+
+* instead of having a built-in mechanism for privacy, JavaScript developers use a naming convention to signal that a property should be immutable: a leading underscore `_`
+
+  * e.g.
+
+    ```javascript
+    const bankAccount = {
+      _amount: 1000,
+    }
+    ```
+
+  * in the above example, it *is* still possible to reassign `_amount`
+
+    * we'll discuss getters and setters next, which are methods designed to respect privacy
+
+
+
+#### getters
+
+* ...are methods that get and return the internal properties of an object
+
+* syntax note: in general, getter methods do not need to be called with a set of `()` parentheses
+
+  * syntactically, it looks like we're accessing a property
+
+* e.g.
+
+  ```javascript
+  const person = {
+    _firstName: 'John',
+    _lastName: 'Doe',
+    get fullName() {
+      if (this._firstName && this._lastName){
+        return `${this._firstName} ${this._lastName}`;
+      } else {
+        return 'Missing a first name or a last name.';
+      }
+    }
+  }
+  // To call the getter method: 
+  person.fullName; // 'John Doe'
+  ```
+
+  
+
+* advantages of getter methods:
+
+  * it's clearer to other developers reading the code what the intention is (as opposed to with the more generic *methods*, which are used for many things)
+
+
+
+#### setters
+
+* ...are methods which reassign values of existing properties within an object
+
+* e.g.
+
+  ```javascript
+  const person = {
+    _age: 37,
+    set age(newAge) {
+      if (typeof newAge === 'number') {
+        this._age = newAge;
+      } else {
+        console.log('You must assign a number to age');
+      }
+    }
+  };
+  person.age = 40;
+  console.log(person._age); // Logs: 40
+  person.age = '40'; // Logs: You must assign a number to age
+  ```
+
+* like getters, setters are called without parentheses
+
+  * syntactically, they look like properties, not methods
+
+* properties may still be assigned without using a setter:
+
+  ```javascript
+  person._age = 'forty-five'
+  console.log(person._age); // Prints forty-five
+  ```
+
+* **important**: notice the syntax for setters:
+
+  * **correct: `object.setter = value;`**
+  * incorrect: `object.setter(value);`
+    * this is the syntax for a method, not a setter
+
+
+
+**important note on getters and setters:**
+
+* they can have the same name!
+  * if a value is assigned with the `=`, then the setter is used
+  * otherwise, the value is simply returned
+* convention seems to be that the property of the object that the getter and setter work on, is the same name, but with a `_` underscore in front of it.
+
+
+
+#### factory functions
+
+* are functions that return an object, and are useful for creating many objects quickly
+
+  * parameters may allow the returned object to be customized
+
+* e.g.
+
+  ```javascript
+  const robotFactory = (model, mobile) => {
+    return {
+      model: model,
+      mobile: mobile,
+      beep () {
+        console.log(`Beep Boop`);
+      }
+    }
+  };
+  
+  const tinCan = robotFactory('P-500', true);
+  
+  tinCan.beep();
+  ```
+
+  
+
+#### property value shorthand
+
+* instead of specifying, as we did above, that the property, `model`, is equal to the value *of the same name*, we can just write:
+
+  ```javascript
+  const robotFactory = (model, mobile) => {
+    return {
+      model,
+      mobile,
+    }
+  };
+  ```
+
+  
