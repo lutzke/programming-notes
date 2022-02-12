@@ -4,6 +4,12 @@
 
 
 
+---
+
+## Basic JavaScript
+
+
+
 ### some quick notes on syntax
 
 * line endings: semicolon
@@ -1076,4 +1082,71 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
   };
   ```
 
+
+
+#### destructured assignment
+
+* we can create a variable with the same name as an object's property, and then use a shorthand to assign the value of that property to the variable, like so:
+
+  ```javascript
+  const { fuel } = robot; // robot.fuel = 'uranium'
+  console.log(fuel); // prints 'uranium'
+  ```
+
+* of course, this also works for nested properties:
+
+  ```javascript
+  const { gpu } = robot.computeUnit; //r robot.computeUnit.gpu = 'nvidia'
+  console.log(gpu); // prints 'nvidia'
+  ```
+
+* we can also use this technique to call methods inside function inside objects:
+
+  ```javascript
+  const robot = {
+    talk: {
+      beep() {
+        console.log('Beep boop!');
+      },
+      alarm() {
+        console.log('Reeeee! Reeeee!');
+      },
+    }
+  };
   
+  const { talk } = robot;
+  talk.beep(); // prints 'Beep boop!'
+  ```
+
+  
+
+#### built-in object methods (and properties)
+
+* from MDN:
+
+  > Nearly all objects in JavaScript are instances of [`Object`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object); a typical object inherits properties (including methods) from `Object.prototype`, although these properties may be shadowed (a.k.a. overridden).
+  >
+  > However, an `Object` may be deliberately created for which this is not true (e.g. by [`Object.create(null)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create)), or it may be altered so that this is no longer true (e.g. with [`Object.setPrototypeOf`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf))
+
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+  * see this page for information on built-in methods shared by all objects based off `Object.prototype`
+
+
+
+*important note on the below: the syntax is **`Object.method(nameOfObject)`**, not `nameOfObject.method()`!* 
+
+
+
+##### `Object.entries()`
+
+* > The **`Object.entries()`** method returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs. This is the same as iterating with a [`for...in`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in) loop, except that a `for...in` loop enumerates properties in the prototype chain as well.
+
+##### `Object.keys()`
+
+* > The Object.keys() method returns an array of a given object's own enumerable property names, iterated in the same order that a normal loop would.
+* 
+
+##### `Object.assign()`
+
+* > The Object.assign() method copies all enumerable own properties from one or more source objects to a target object. It returns the modified target object.
