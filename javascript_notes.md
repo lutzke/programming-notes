@@ -1,12 +1,10 @@
-## JavaScript
+# JavaScript
 
 *notes from learning on Codecademy*
 
 
 
----
-
-## Basic JavaScript
+# Basic JavaScript
 
 
 
@@ -1134,7 +1132,9 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 
 
 
-*important note on the below: the syntax is **`Object.method(nameOfObject)`**, not `nameOfObject.method()`!* 
+##### some useful built-in methods of `Object.prototype`
+
+*important note on these methods: the syntax is **`Object.method(nameOfObject)`**, not `nameOfObject.method()`!* 
 
 
 
@@ -1145,8 +1145,191 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 ##### `Object.keys()`
 
 * > The Object.keys() method returns an array of a given object's own enumerable property names, iterated in the same order that a normal loop would.
-* 
 
 ##### `Object.assign()`
 
 * > The Object.assign() method copies all enumerable own properties from one or more source objects to a target object. It returns the modified target object.
+
+
+
+for more built-in methods, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+
+
+# Intermediate JavaScript
+
+
+
+### classes
+
+* ...are a feature in Object-Oriented Programming languages
+
+* they are used to quickly produce similar objects
+
+* e.g.
+
+  ```javascript
+  class Dog {
+    constructor(name) {
+      this._name = name;
+      this._behavior = 0;
+    }
+  
+    get name() {
+      return this._name;
+    }
+  }
+  
+  const halley = new Dog('Halley');
+  console.log(halley.name);
+  ```
+
+* a key difference between classes and objects is the `constructor()` method
+
+  * JavaScript will call the `constructor()` method each time a new instance of a class is created
+
+* **class names begin with a capital letter!**
+
+* the `this` keyword in the above example refers to an instance of the class
+
+  * so, the `Dog` will be given the `name` specified
+
+
+
+#### instances and `new`
+
+* the `new` keyword generates a new instance of the specified class by calling the `constructor()` method, running it, and returning the new instance
+
+  * the constructor is named with the class name, and (usually) takes in arguments
+
+  ```javascript
+  class Dog {
+    constructor(name) {
+      this.name = name;
+      this.behavior = 0;
+    } 
+  }
+   
+  const halley = new Dog('Halley'); // Create new Dog instance
+  ```
+
+* note that instances of a class are not capitalized!
+
+
+
+#### methods
+
+* syntax: no commas between methods when making a class
+
+  * otherwise, it's the same as with an object
+
+  ```javascript
+  class Dog {
+    constructor(name) {
+      this._name = name;
+    }
+    
+   // no comma!
+   
+    get name() {
+      return this._name;
+    }
+  }
+  ```
+
+* recall that the leading underscore signals that a property should not be accessed directly; instead, setter and/or getter method(s) should be used
+
+* remember to use the `this` keyword inside methods to access properties of the class instance!
+
+
+
+#### inheritance
+
+* some classes may share features (methods, properties, etc.) with other classes
+
+  * to reduce redundancy, we can create parent classes (a.k.a. superclasses) with properties and methods shared by their children
+  * copy/pasting, or doing the same things multiple times, is generally frowned upon when writing code
+    * parent classes and subclasses make code more modular, readable, and easier to maintain
+
+  ```javascript
+  // Parent class
+  class Animal {
+    constructor(name) {
+      this._name = name;
+      this._behavior = 0;
+    }
+   
+    get name() {
+      return this._name;
+    }
+   
+    get behavior() {
+      return this._behavior;
+    }
+   
+    incrementBehavior() {
+      this._behavior++;
+    }
+  } 
+  
+  // Child class
+  class Cat extends Animal {
+    constructor(name, usesLitter) {
+      super(name);
+      this._usesLitter = usesLitter; // Adding a new property
+    }
+  }
+  ```
+
+* the above example uses two new keywords:
+
+  * **`extends`**
+    * makes methods of the parent class available inside the child
+  * **`super`**
+    * calls the constructor of the parent class, passing any arguments to the parent constructor
+
+* new properties are set in the child class' constructor *after* the `super` method is called
+
+  * if done out of order, a reference error will be thrown
+  * make it a habit to call `super` on the first line of the child constructor
+
+* yes, child classes also have capitalized names; all classes do!
+
+
+
+#### static methods
+
+* it may be useful to have methods that can be called directly from a class, without having to create an instance of that class
+
+* e.g.: the built-in `Date` class
+
+  * we can create an instance of `Date` to represent a date, but we can also call `Date.now()` to *return* the current date
+    * note how `Date.now()` does *not* create a new instance of `Date`; it simply returns a value
+
+* note that static methods can *not* be called from an instance of a class
+
+* the **`static`** keyword is used to create static methods
+
+* e.g.
+
+  ```javascript
+  class Dog {
+    constructor(name) {
+      this.name = name;
+      this.behavior = 0;
+    }
+   
+    static generateName() {
+      const names = ['Fido', 'Spot', 'Bailey', 'Max', 'Buddy'];
+      const randomNumber = Math.floor(Math.random()*5);
+      return names[randomNumber];
+    }
+  }
+  ```
+
+  * `generateName()` may *not* be called on an instance of `Dog`.
+
+
+
+### modules
+
