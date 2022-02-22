@@ -961,7 +961,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 
 * ...are methods that get and return the internal properties of an object
 
-* syntax note: in general, getter methods do not need to be called with a set of `()` parentheses
+* syntax note: getter methods do not need to be called with a set of `()` parentheses
 
   * syntactically, it looks like we're accessing a property
 
@@ -1200,7 +1200,7 @@ for more built-in methods, see: https://developer.mozilla.org/en-US/docs/Web/Jav
 
 * the `new` keyword generates a new instance of the specified class by calling the `constructor()` method, running it, and returning the new instance
 
-  * the constructor is named with the class name, and (usually) takes in arguments
+  * the constructor (usually) takes in arguments
 
   ```javascript
   class Dog {
@@ -1213,7 +1213,7 @@ for more built-in methods, see: https://developer.mozilla.org/en-US/docs/Web/Jav
   const halley = new Dog('Halley'); // Create new Dog instance
   ```
 
-* note that instances of a class are not capitalized!
+* note that *instances of* a class (objects) are not capitalized!
 
 
 
@@ -1228,7 +1228,6 @@ for more built-in methods, see: https://developer.mozilla.org/en-US/docs/Web/Jav
     constructor(name) {
       this._name = name;
     }
-    
    // no comma!
    
     get name() {
