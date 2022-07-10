@@ -22,7 +22,7 @@
 	
 * `else if` is used for conditionals (NOT `elif`)
 
-* equality check is `===` **three** equal signs!
+* equality operator is `===` **three** equal signs!
 	* `!==` inequality is also three characters
 	
 	* for more info on `==` vs. `===` in JS: 
@@ -70,6 +70,13 @@
 	* they may be used to interpolate or insert values into strings, e.g.: `I own a pet ${myPet}.`
 	* template literals are wrapped by single **backticks:** no need to escape quotes
 	* putting variables into a string is called string interpolation
+	* e.g.
+	
+	  ````javascript
+	  console.log(`The answer is: ${someAnswer}`);
+	  ````
+	
+	  
 
 
 #### properties
@@ -151,6 +158,7 @@ if (true) {
 ##### truthiness and falsiness
 
 * falsy values include:
+  * `false` (Boolean false)
   * `0`
   * empty strings
   * `null`
@@ -183,6 +191,13 @@ if (isNightTime) {
 ```javascript
 isNightTime ? console.log('Turn on the lights!') : console.log('Turn off the lights!');
 ```
+
+**returning a value**
+
+* `return` is NOT implied with the ternary operator; if you want to return a value, you must say so:
+
+  ```javascript
+  return (aSurname > bSurname) ? 1 : -1;
 
 **how/when to use ternary operator**
 
@@ -434,6 +449,45 @@ more information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 
 
+### loops
+
+#### for loop
+
+> A `for` loop contains three expressions separated by `;` inside the parentheses:
+>
+> 1. an *initialization* starts the loop and can also be used to declare the iterator variable.
+> 2. a *stopping condition* is the condition that the iterator variable is evaluated against— if the condition evaluates to `true` the code block will run, and if it evaluates to `false` the code will stop.
+> 3. an *iteration statement* is used to update the iterator variable on each loop.
+
+```javascript
+for (let counter = 0; counter < 4; counter++) {
+  console.log(counter);
+}
+```
+
+#### while loop
+
+```javascript
+while (someConditionIsTrue) {
+  doSomething();
+}
+```
+
+#### do while loop
+
+```javascript
+do {
+  something();
+} while (someConditionIsTrue);
+```
+
+#### break keyword
+
+* break out of the enclosing loop's block
+  * excludes if/else/other blocks which don't belong to loops
+
+
+
 ### arrays
 
 basic example: 
@@ -456,7 +510,7 @@ let concepts = ['creating arrays', 'array structures', 'array manipulation']
 
   ```javascript
   const numbers = [40, 41, 42];
-  numbers[1] = [55]; // This works
+  numbers[1] = 55; // This works
   numbers = [54, 55, 56]; // TypeError: Assignment to constant variable.
 
 ##### .length
@@ -525,7 +579,7 @@ console.log(nestedArr[1][0]); // Output: 2
 
 ##### .slice()
 
-> * The **`slice()`** method returns a shallow **copy of a portion of an array** into a new array object selected from `start` to `end` (`end` not included) where `start` and `end` represent the index of items in that array. The original array will not be modified.
+* The slice() method returns a shallow copy of a portion of an array into a new array object selected from start (inclusive) to end (exclusive) where start and end represent the index of items in that array. The original array will not be modified.
 
 ```javascript
 const numbers = [40, 41, 42, 43, 44];
@@ -543,45 +597,6 @@ console.log(numbers.slice(2, -1)); // Output: [42, 43]
 * returns an integer: 
   * the **first** index at which a given element can be found in the list
   * `-1` if it can't be found
-
-
-
-### loops
-
-#### for loop
-
-> A `for` loop contains three expressions separated by `;` inside the parentheses:
->
-> 1. an *initialization* starts the loop and can also be used to declare the iterator variable.
-> 2. a *stopping condition* is the condition that the iterator variable is evaluated against— if the condition evaluates to `true` the code block will run, and if it evaluates to `false` the code will stop.
-> 3. an *iteration statement* is used to update the iterator variable on each loop.
-
-```javascript
-for (let counter = 0; counter < 4; counter++) {
-  console.log(counter);
-}
-```
-
-#### while loop
-
-```javascript
-while (someConditionIsTrue) {
-  doSomething();
-}
-```
-
-#### do while loop
-
-```javascript
-do {
-  something();
-} while (someConditionIsTrue);
-```
-
-#### break keyword
-
-* break out of the enclosing loop's block
-  * excludes if/else/other blocks which don't belong to loops
 
 
 
@@ -624,9 +639,7 @@ do {
 
 ```javascript
 const words = ['chair', 'music', 'pillow', 'bricks', 'pen', 'door']; 
-const shortWords = words.filter(word => {
-  return word.length < 6;
-});
+const shortWords = words.filter(word => return word.length < 6);
 // Returns [ 'chair', 'music', 'pen', 'door' ]
 ```
 
@@ -635,7 +648,7 @@ const shortWords = words.filter(word => {
 #### `.findindex()`
 
 * find location of an element in an array
-  * returns **the index of** the first element that causes the callback function to return `true`
+  * returns **the index of** the **first** element that causes the callback function to return `true`
 
 ```javascript
 const jumbledNums = [123, 25, 78, 5, 9]; 
@@ -756,7 +769,8 @@ const lessThanTen = jumbledNums.findIndex(num => num < 10);
 * dot or bracket notation may be used to assign a new value to an existing property, or add an entirely new property to the object
 * we can't reassign an object declared with const, but we can still mutate it
   * add new properties
-  * modify existing ones
+  * modify existing properties
+  * delete existing properties
 
 ```javascript
 const spaceship = {type: 'shuttle'};
@@ -937,7 +951,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 
 * some properties should not be able to be accessed and updated
 
-  * we may only certain properties to be mutable
+  * we may only want certain properties to be mutable
   * this is called privacy, which is a feature many languages have built-in with objects
     * JavaScript does not
 
@@ -1036,7 +1050,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 
 * they can have the same name!
   * if a value is assigned with the `=`, then the setter is used
-  * otherwise, the value is simply returned
+  * otherwise, the current value is simply returned (getter)
 * convention seems to be that the property of the object that the getter and setter work on, is the same name, but with a `_` underscore in front of it.
 
 
@@ -1087,14 +1101,16 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 * we can create a variable with the same name as an object's property, and then use a shorthand to assign the value of that property to the variable, like so:
 
   ```javascript
-  const { fuel } = robot; // robot.fuel = 'uranium'
+  // robot.fuel = 'uranium'
+  const { fuel } = robot;
   console.log(fuel); // prints 'uranium'
   ```
 
 * of course, this also works for nested properties:
 
   ```javascript
-  const { gpu } = robot.computeUnit; //r robot.computeUnit.gpu = 'nvidia'
+  // robot.computeUnit.gpu = 'nvidia'
+  const { gpu } = robot.computeUnit;
   console.log(gpu); // prints 'nvidia'
   ```
 
@@ -1421,7 +1437,7 @@ const areaOfSquare = areaFunctions.squareArea(sideLength);
 
 *for more info, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises*
 
-* promises are objects that represent the eventual outcome of an sync operation
+* promises are objects that represent the eventual outcome of an async operation
 * they can be in one of three states:
   * **pending**
     * initial state
@@ -1429,7 +1445,7 @@ const areaOfSquare = areaFunctions.squareArea(sideLength);
   * **fulfilled**
     * operation has completed successfully
     * promise now has a **resolved value**
-      * e.g. maybe a JSON object
+      * e.g. maybe an object made from parsed JSON
   * **rejected**
     * the operation has failed
     * there is a reason for the failure
@@ -1439,11 +1455,16 @@ const areaOfSquare = areaFunctions.squareArea(sideLength);
 
 
 
+* success handler function may be called: `onFulfilled`
+* failure handle function may be called: `onRejected`
+
+
+
 #### constructing a promise object
 
 > The `Promise` constructor method takes a function parameter called the *executor function* which runs automatically when the constructor is called. The executor function generally starts an asynchronous operation and dictates how the promise should be settled.
 >
-> The executor function has two function parameters, usually referred to as the `resolve()` and `reject()` functions. The `resolve()` and `reject()` functions aren’t defined by the programmer. When the `Promise` constructor runs, JavaScript will pass **its own** `resolve()` and `reject()` functions into the executor function.
+> The executor function has two function parameters, usually referred to as the `resolve()` and `reject()` functions. **The `resolve()` and `reject()` functions aren’t defined by the programmer. When the `Promise` constructor runs, JavaScript will pass *its own* `resolve()` and `reject()` functions into the executor function.**
 >
 > - `resolve` is a function with one argument. Under the hood, if invoked, `resolve()` will change the promise’s status from `pending` to `fulfilled`, and the promise’s resolved value will be set to the argument passed into `resolve()`.
 > - `reject` is a function that takes a reason or error as an argument. Under the hood, if invoked, `reject()` will change the promise’s status from `pending` to `rejected`, and the promise’s rejection reason will be set to the argument passed into `reject()`.
@@ -1482,8 +1503,10 @@ setTimeout(delayedHello, 2000);
 ```
 
 > Here, we invoke `setTimeout()` with the callback function `delayedHello()` and `2000`. In at least two seconds `delayedHello()` will be invoked. But why is it “at least” two seconds and not exactly two seconds?
-> 
+>
 > This delay is performed asynchronously—the rest of our program won’t stop executing during the delay. Asynchronous JavaScript uses something called *the event-loop*. After two seconds, `delayedHello()` is added to a line of code waiting to be run. Before it can run, any synchronous code from the program will run. Next, any code in front of it in the line will run. This means it might be more than two seconds before `delayedHello()` is actually executed.
+>
+> (see the following for more info on this: https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#reasons_for_delays_longer_than_specified)
 
 
 
@@ -1517,3 +1540,12 @@ Stringy string string. This is a string.
   * these callbacks are referred to as **handlers**
   * when the promise settles, the appropriate handler will be invoked with the settled value of the promise
 
+##### `.catch()`
+
+* ...is like `.then()`, but specifically for handling just rejections
+  * it takes only one argument, `onRejected`
+  * it is equivalent to `.then(null, onRejected)`
+* `.catch()` is usually chained onto a `.then()`
+  * when the `.then()` fails, it returns a promise with the same rejection reason as the original promise
+    * so, the `.catch()` is able to take that reason in as `onRejected`
+  * 
