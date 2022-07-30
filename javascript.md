@@ -881,7 +881,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
   * any changes to the object will be made to this location in memory, i.e. to the original object
 
 
-#### looping through objects
+#### looping through an array of objects
 
 * example:
 
@@ -893,8 +893,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
 
 
 
-
-### `this`
+#### `this`
 
 * the `this` keyword references the calling object, and allows us to access its properties
 
@@ -914,7 +913,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
         console.log(dietType); // <-----
       }
     };
-    goat.diet(); 
+    goat.diet(); // "ReferenceError: dietType is not defined"
     ```
 
     with `this`:
@@ -932,7 +931,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
       }
     };
      
-    goat.diet(); 
+    goat.diet(); // herbivore
     ```
 
 * why is `this` necessary in the above example?
@@ -944,8 +943,6 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
     * don't use arrow functions inside objects!
 
 
-
-### objects, continued
 
 #### privacy
 
@@ -1023,7 +1020,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
     }
   };
   person.age = 40;
-  console.log(person._age); // Logs: 40
+  console.log(person._age); // 40
   person.age = '40'; // Logs: You must assign a number to age
   ```
 
@@ -1076,7 +1073,7 @@ spaceship.speed = 'Mach 5'; // Creates a new key of 'speed' with a value of 'Mac
   
   const tinCan = robotFactory('P-500', true);
   
-  tinCan.beep();
+  tinCan.beep(); // Beep Boop
   ```
 
   
