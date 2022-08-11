@@ -600,7 +600,7 @@ console.log(numbers.slice(2, -1)); // Output: [42, 43]
 
 
 
-### iterators
+#### array iterators
 
 #### `.forEach()`
 
